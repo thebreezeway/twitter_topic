@@ -1,0 +1,88 @@
+
+{% extends 'topic_retrieval/base.html' %}
+
+
+
+{% block title %}TWITTER 热点话题{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+    <h1 class="display-4">TWITTER 热点话题 !!!</h1>
+    <p class="lead">twitter最新热点发现引擎</p>
+    <hr class="my-4">
+    <p>点击下方按钮查看更多往日热点</p>
+    <a class="btn btn-primary btn-lg" href={% url 'topic_retrieval:search'%} >检  索</a>
+    </div>
+    <h1 class="page-header">最新热点话题</h1>
+    <table class='table' >
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">时间</th>
+                <th scope="col">话题</th>
+                <th scope="col">相关推文</th>
+                
+               
+                </tr>
+            </thead>
+            {% comment %} {% if latest_topic_list %}
+            
+            <tbody>
+            {% for topic in latest_topic_list %}
+                <tr id = "tweet_row_{{forloop.counter}}">
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><a href="{{topic.url}}" target ="_blank" >{{topic.tweet_id}}</a></td>
+                    <td>{{topic.datetime}}</td>
+                    <td>{{topic.text}}</td>
+                
+              
+                </tr>
+               
+                 
+
+
+            {% endfor %}
+            
+            </tbody>
+            {% endif %} {% endcomment %}
+            <tbody id = 'tbody' >
+            
+            </tbody  >
+
+            
+                
+                
+            
+    </table>
+    <script>
+     $(function(){
+        var update_timer = "";
+        update_timer = setInterval(update_topics(),10*1000);
+   
+     });
+    
+        
+    function update_topics(){
+        $.getJSON(
+            '/topic_retrieval/update_tweets',
+            function(topics){
+               
+               
+
+                $.each($.parseJSON(topics),function(n,topic){
+                    
+                    $('#tbody').append("<tr><th scope='row'>"+(n+1)+"</th>\
+                        <td>"+topic.fields.datetime+"</td>\
+                        <td>"+topic.fields.text+"</td>\
+                        <td><a href = '/topic_retrieval/tweets?topic_id="+topic.fields.topic_id+"'><i class='fas fa-list text-dark'></i><a></td>\
+                        </tr>");   
+                });
+            }
+        )
+        
+    };        
+    
+    </script>
+  
+{% endblock %}
+

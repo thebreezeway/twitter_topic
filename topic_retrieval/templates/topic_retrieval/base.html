@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Replaceable template{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'topic_retrieval/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'topic_retrieval/css/all.css' %}" />
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'topic_retrieval/css/style.css' %}" />
+
+    <script src="{% static 'topic_retrieval/jquery-3.3.1.min.js' %}" ></script>
+    <script src="{% static 'topic_retrieval/popper.min.js' %}" ></script>
+    <script src="{% static 'topic_retrieval/bootstrap/js/bootstrap.min.js' %}" ></script>
+    
+    </head>
+<body class = "container-fluid" style ="height:100vh; ">
+    {% comment %} <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/">Home</a> </li>
+            <li><a href="/blog">Blog</a> </li>
+        </ul>
+        {% endblock %}
+    </div> {% endcomment %}
+    
+    <div id="content" style="height:100%;">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+li a{
+    color: green;
+}
+.search-sidebar {
+    color: #fff;
+    background: #333; 
+}
+.gradient-background {
+    position: relative;
+    display: inline-block;
+    padding: 0 40px;
+    color: #fff;
+    background: linear-gradient(315deg, #69e9d7, #34a0f2, #7f67be, #c556da, #da568c, #e5c271, #8df264);
+    background-size: 1400% 1400%;
+    -webkit-animation: AnimationName 6s ease infinite alternate;
+    -moz-animation: AnimationName 6s ease infinite alternate;
+    animation: AnimationName 6s ease infinite alternate;
+    animation-direction: alternate;
+    
+} 
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:10% 0%}
+    100%{background-position:90% 100%}
+
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:10% 0%}
+    100%{background-position:90% 100%}
+
+}
+@keyframes AnimationName { 
+    0%{background-position:10% 0%}
+    100%{background-position:90% 100%}
+}

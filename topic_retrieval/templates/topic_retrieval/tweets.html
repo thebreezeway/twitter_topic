@@ -1,0 +1,107 @@
+{% extends 'topic_retrieval/base.html' %}
+
+
+{% block title %}推文查看{% endblock %}
+
+{% block content %}
+
+<div class="row" style="height:100%;"> 
+    
+    <div class="col-2 p-3 search-sidebar"  style="height:100%;">
+    {% comment %} <a href={%url 'topic_retrieval:index'%} ><h3 class="page-header">TWITTER 热点发现</h3></a> {% endcomment %}
+    <h4> 检索 </h4>
+        <form action = {% url 'topic_retrieval:search'%} method = 'get'>
+            <div class="form-group">
+                <label for="start_date">起始日期:</label>
+                <input type="date" class="form-control" aria-label="起始日期" id="start_date" name="start_date" value = {{start_date}}>
+                {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
+            </div>
+            <div class="form-group">
+                <label for="end_date">截止日期:</label>
+                <input type="date" class="form-control" aria-label="截止日期"  id="end_date" name="end_date" value ={{end_date}}> 
+            </div>
+            
+            <button type="submit" onclick ='search' class="mt-4 btn py-1 btn-block gradient-background">检索热门话题</button>
+        </form>
+    </div>
+
+
+    <div class ="col-10 p-5" style="overflow:scroll;">
+        <div class="row p-3"><h1 class="page-header">热点相关推文</h1></div>
+        
+        
+            
+            {% if relevant_tweet_list %}
+            
+            
+            {% for tweet in relevant_tweet_list %}
+            <div class="row p-3" >
+                <div class="card w-100">
+                    <div class="card-header">
+                        <a href = "{{tweet.url}}">{{tweet.tweet_id}}  <span class="fab fa-twitter text-primary"></span></a>
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                        <p>{{tweet.text}}</p>
+                        <footer class="blockquote-footer">发布于：<cite title="Source Title">{{tweet.datetime}}</cite></footer>
+                        </blockquote>
+                    </div>
+                </div>
+                {% comment %} {% if topic.first_tweet == 1 %}
+                <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td><a href="{{topic.url}}" target ="_blank" >{{topic.tweet_id}}</a></td>
+                <td>{{topic.datetime}}</td>
+                <td></td>
+                <td><i class="fab fa-twitter text-primary"></i></td>
+                
+              
+                </tr>
+                {% endif %} {% endcomment %}
+                 
+
+            </div>
+            {% endfor %}
+            
+            
+            {% endif %}
+            
+                
+                
+            
+      
+       
+
+
+        
+        <div class="row ">
+        
+        </div>
+    </div>
+
+</div>
+<script>
+function search() {
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/users/login" ,//url
+                data: $('#form1').serialize(),
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        alert("SUCCESS");
+                    }
+                    ;
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+        }
+</script>
+
+
+
+{% endblock %}
