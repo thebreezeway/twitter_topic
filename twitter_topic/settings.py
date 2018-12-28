@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'twitter_topic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'topic',  # 数据库名
         'USER': 'root',   #数据库用户名
         'PASSWORD': ' ',  # 数据库密码

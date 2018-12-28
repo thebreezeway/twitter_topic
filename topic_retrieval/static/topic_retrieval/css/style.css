@@ -5,6 +5,17 @@ li a{
     color: #fff;
     background: #333; 
 }
+.gradient-text {
+    position: relative;
+    display: inline-block;
+    padding: 0 40px;
+    color: linear-gradient(315deg, #69e9d7, #34a0f2, #7f67be, #c556da, #da568c, #e5c271, #8df264);;
+    -webkit-animation: AnimationName 6s ease infinite alternate;
+    -moz-animation: AnimationName 6s ease infinite alternate;
+    animation: AnimationName 6s ease infinite alternate;
+    animation-direction: alternate;
+    
+} 
 .gradient-background {
     position: relative;
     display: inline-block;

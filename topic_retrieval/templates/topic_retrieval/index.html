@@ -6,14 +6,26 @@
 {% block title %}TWITTER 热点话题{% endblock %}
 
 {% block content %}
+    
     <div class="jumbotron">
-    <h1 class="display-4">TWITTER 热点话题 !!!</h1>
+    <h1 class="display-4 ">TWITTER 热点话题</h1>
     <p class="lead">twitter最新热点发现引擎</p>
     <hr class="my-4">
     <p>点击下方按钮查看更多往日热点</p>
     <a class="btn btn-primary btn-lg" href={% url 'topic_retrieval:search'%} >检  索</a>
     </div>
     <h1 class="page-header">最新热点话题</h1>
+    
+    <div class="input-group my-3 col-3">
+        <div class="input-group-append">
+            <span class='input-group-text'>自动更新间隔（秒）</span>
+        </div>
+        <input id = 'input_interval' type="number" max='3600' class="form-control" value="60" aria-label="" aria-describedby="basic-addon2" >
+        <div class="input-group-append">
+            <button class="btn  btn-info" type="button" onclick='setTimerInterval()'>更改</button>
+        </div>
+    </div>
+    
     <table class='table' >
             <thead>
                 <tr>
@@ -55,28 +67,39 @@
             
     </table>
     <script>
-     $(function(){
-        var update_timer = "";
-        update_timer = setInterval(update_topics(),10*1000);
+
+    var update_timer;
+    var interval = 60
+    $(document).ready(function(){
+        update_topics();
+        if (update_timer == undefined)
+            update_timer = window.setInterval(update_topics,window.interval*1000);
+    });
    
-     });
-    
+    function setTimerInterval(){
+        
+        
+        window.interval = $('#input_interval').val();
+        clearInterval(update_timer);
+        update_timer  = window.setInterval(update_topics,window.interval*1000);
+        alert( "自动更新间隔更新为" + $('#input_interval').val() + "秒")
+    }
         
     function update_topics(){
         $.getJSON(
             '/topic_retrieval/update_tweets',
             function(topics){
                
-               
-
+                var topics_html = "";
                 $.each($.parseJSON(topics),function(n,topic){
                     
-                    $('#tbody').append("<tr><th scope='row'>"+(n+1)+"</th>\
+                    topics_html += "<tr><th scope='row'>"+(n+1)+"</th>\
                         <td>"+topic.fields.datetime+"</td>\
                         <td>"+topic.fields.text+"</td>\
                         <td><a href = '/topic_retrieval/tweets?topic_id="+topic.fields.topic_id+"'><i class='fas fa-list text-dark'></i><a></td>\
-                        </tr>");   
+                        </tr>";  
                 });
+                $('#tbody').html(topics_html);
             }
         )
         

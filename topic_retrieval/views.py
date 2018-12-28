@@ -41,7 +41,7 @@ class SearchView(generic.ListView):
     def get_queryset(self):
         start_date = self.request.GET.get('start_date')
         end_date = self.request.GET.get('end_date')
-        return Topic.objects.filter(datetime__date__range=(start_date,end_date))
+        return Topic.objects.filter(datetime__range=(start_date,end_date))
     
 class TweetsView(generic.ListView):
     template_name = 'topic_retrieval/tweets.html'
@@ -52,6 +52,9 @@ class TweetsView(generic.ListView):
         context = super(TweetsView, self).get_context_data(**kwargs)
         m_topic_id = self.request.GET.get('topic_id')
         context['topic'] = Topic.objects.filter(topic_id = m_topic_id).filter(first_tweet = 1)
+        
+        self.request.session['start_date'] = datetime.date.today().strftime("%Y-%m-%d")
+        self.request.session['end_date']   = datetime.date.today().strftime("%Y-%m-%d")
         context['start_date'] = self.request.session['start_date']
         context['end_date'] = self.request.session['end_date']
         return context
